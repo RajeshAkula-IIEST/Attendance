@@ -2,24 +2,57 @@
 <html>
 <head>
   <title>Attendance</title>
+
+  <!-- 🔐 ACCESS CONTROL : DO NOT MOVE -->
+  <script>
+    if (sessionStorage.getItem("loggedIn") !== "yes") {
+      window.location.href = "index.html";
+    }
+  </script>
+
   <style>
     body { font-family: Arial; }
+
     .student {
-      padding: 10px;
-      margin: 5px;
       border: 1px solid #333;
-      border-radius: 5px;
-      cursor: pointer;
+      width: 260px;
+      margin: 6px;
+      border-radius: 6px;
+      overflow: hidden;
       display: inline-block;
-      width: 200px;
-      text-align: center;
+      font-size: 14px;
     }
+
+    .info {
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .row {
+      display: flex;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      border-top: 1px solid #333;
+    }
+
     .present {
-      background: green;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .absent {
+      background-color: #F44336;
       color: white;
     }
   </style>
 </head>
+
 <body>
 
 <h2>Attendance</h2>
@@ -28,45 +61,66 @@
 <button onclick="submitAttendance()">Submit</button>
 
 <script>
-  if (sessionStorage.getItem("loggedIn") !== "yes") {
-    document.body.innerHTML = "Access denied";
-    throw new Error("Unauthorized");
-  }
 const URL = "https://script.google.com/macros/s/AKfycbzVBOo6kSYrWYMv_oEhN9k06Qo2GnW6nsMUDMirZspvlGTthyI-ZHb02R9h2eA6AhFP/exec";
+
 let students = [];
 
+/* FETCH STUDENT LIST */
 fetch(URL)
   .then(res => res.json())
   .then(data => {
-    students = data.map(s => ({ ...s, present: false }));
+    students = data.map(s => ({
+      roll: s.roll,
+      name: s.name,
+      status: null
+    }));
     render();
   });
 
+/* RENDER UI */
 function render() {
   const c = document.getElementById("students");
   c.innerHTML = "";
+
   students.forEach((s, i) => {
     const d = document.createElement("div");
     d.className = "student";
-    d.innerHTML = `${s.roll}<br>${s.name}`;
-    d.onclick = () => {
-      students[i].present = !students[i].present;
-      d.classList.toggle("present");
-    };
+
+    d.innerHTML = `
+      <div class="info">${s.roll}<br>${s.name}</div>
+      <div class="row">
+        <div class="btn" onclick="mark(${i}, 'Present', this)">Present</div>
+        <div class="btn" onclick="mark(${i}, 'Absent', this)">Absent</div>
+      </div>
+    `;
+
     c.appendChild(d);
   });
 }
 
+/* MARK PRESENT / ABSENT */
+function mark(index, status, el) {
+  students[index].status = status;
+
+  const row = el.parentElement;
+  row.children[0].className = "btn";
+  row.children[1].className = "btn";
+
+  el.classList.add(status === "Present" ? "present" : "absent");
+}
+
+/* SUBMIT ATTENDANCE */
 function submitAttendance() {
+  // Ensure all students are marked
+  const unmarked = students.some(s => s.status === null);
+  if (unmarked) {
+    alert("Please mark attendance for all students.");
+    return;
+  }
+
   fetch(URL, {
     method: "POST",
-    body: JSON.stringify(
-      students.map(s => ({
-        roll: s.roll,
-        name: s.name,
-        status: s.present ? "Present" : "Absent"
-      }))
-    )
+    body: JSON.stringify(students)
   })
   .then(r => r.text())
   .then(() => alert("Attendance saved"));
