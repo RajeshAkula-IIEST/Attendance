@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Login</title>
+  <style>
+    body {
+      font-family: Arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      border: 1px solid #333;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 300px;
+    }
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h3>Faculty Login</h3>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="login()">Login</button>
+  <p id="msg" style="color:red;"></p>
+</div>
+
+<script>
+  const PASSWORD = "IIEST_ATT_2026";
+
+  function login() {
+    const p = document.getElementById("password").value;
+
+    if (p === PASSWORD) {
+      sessionStorage.setItem("loggedIn", "yes");
+      window.location.href = "attendance.html";
+    } else {
+      document.getElementById("msg").innerText = "Wrong password";
+    }
+  }
+</script>
+
+</body>
+</html>
