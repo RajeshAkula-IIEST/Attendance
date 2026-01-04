@@ -3,7 +3,6 @@
 <head>
   <title>Attendance</title>
 
-  <!-- 🔐 ACCESS CONTROL : DO NOT MOVE -->
   <script>
     if (sessionStorage.getItem("loggedIn") !== "yes") {
       window.location.href = "index.html";
@@ -20,36 +19,21 @@
       border-radius: 6px;
       overflow: hidden;
       display: inline-block;
-      font-size: 14px;
     }
 
-    .info {
-      padding: 8px;
-      text-align: center;
-      font-weight: bold;
-    }
+    .info { text-align: center; padding: 6px; font-weight: bold; }
+    .stats { text-align: center; font-size: 12px; background: #f4f4f4; padding: 4px; }
 
-    .row {
-      display: flex;
-    }
-
+    .row { display: flex; }
     .btn {
       flex: 1;
       padding: 10px;
-      cursor: pointer;
       text-align: center;
+      cursor: pointer;
       border-top: 1px solid #333;
     }
-
-    .present {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .absent {
-      background-color: #F44336;
-      color: white;
-    }
+    .present { background: #4CAF50; color: white; }
+    .absent { background: #F44336; color: white; }
   </style>
 </head>
 
@@ -61,69 +45,62 @@
 <button onclick="submitAttendance()">Submit</button>
 
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbxlgDm9aSbc2fFmFvPtijLqIt_4rK7xZUcVDZ1pSXJ75xeJMjSDcWVmI_-oVT4i1lVsTg/exec";
-
+const URL = "https://script.google.com/macros/s/AKfycbxAD52drQYPuvfje08tjB-E2GIyEShrB3g26QLtx67FY2UReKDsisNdRX49OSfPbkOw-g/exec";
 let students = [];
 
-/* FETCH STUDENT LIST */
-fetch(URL)
-  .then(res => res.json())
-  .then(data => {
-    students = data.map(s => ({
-      roll: s.roll,
-      name: s.name,
-      status: null
-    }));
-    render();
-  });
+Promise.all([
+  fetch(URL).then(r => r.json()),
+  fetch(URL + "?stats=true").then(r => r.json())
+]).then(([list, stats]) => {
+  const map = {};
+  stats.forEach(s => map[s.roll] = s);
 
-/* RENDER UI */
+  students = list.map(s => ({
+    ...s,
+    status: null,
+    attended: map[s.roll]?.attended || 0,
+    total: map[s.roll]?.total || 0
+  }));
+  render();
+});
+
 function render() {
   const c = document.getElementById("students");
   c.innerHTML = "";
-
   students.forEach((s, i) => {
     const d = document.createElement("div");
     d.className = "student";
-
     d.innerHTML = `
       <div class="info">${s.roll}<br>${s.name}</div>
-      <div class="row">
-        <div class="btn" onclick="mark(${i}, 'Present', this)">Present</div>
-        <div class="btn" onclick="mark(${i}, 'Absent', this)">Absent</div>
+      <div class="stats">
+        ${s.attended}/${s.total}
+        (${s.total ? ((s.attended/s.total)*100).toFixed(1) : 0}%)
       </div>
-    `;
-
+      <div class="row">
+        <div class="btn" onclick="mark(${i},'Present',this)">Present</div>
+        <div class="btn" onclick="mark(${i},'Absent',this)">Absent</div>
+      </div>`;
     c.appendChild(d);
   });
 }
 
-/* MARK PRESENT / ABSENT */
-function mark(index, status, el) {
-  students[index].status = status;
-
+function mark(i, status, el) {
+  students[i].status = status;
   const row = el.parentElement;
   row.children[0].className = "btn";
   row.children[1].className = "btn";
-
   el.classList.add(status === "Present" ? "present" : "absent");
 }
 
-/* SUBMIT ATTENDANCE */
 function submitAttendance() {
-  // Ensure all students are marked
-  const unmarked = students.some(s => s.status === null);
-  if (unmarked) {
-    alert("Please mark attendance for all students.");
+  if (students.some(s => !s.status)) {
+    alert("Mark all students");
     return;
   }
-
   fetch(URL, {
     method: "POST",
     body: JSON.stringify(students)
-  })
-  .then(r => r.text())
-  .then(() => alert("Attendance saved"));
+  }).then(() => alert("Attendance saved"));
 }
 </script>
 
