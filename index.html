@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Class Attendance</title>
+  <style>
+    body { font-family: Arial; }
+    .student {
+      padding: 12px;
+      margin: 6px;
+      border: 1px solid #444;
+      cursor: pointer;
+      border-radius: 6px;
+      display: inline-block;
+      width: 200px;
+      text-align: center;
+    }
+    .present {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Attendance</h2>
+
+<div id="students"></div>
+
+<br>
+<button onclick="submitAttendance()">Submit</button>
+
+<script>
+  const students = [
+    { roll: "ME21B001", name: "Arun", present: false },
+    { roll: "ME21B002", name: "Bala", present: false }
+    // ADD ALL 59 STUDENTS HERE
+  ];
+
+  const container = document.getElementById("students");
+
+  students.forEach((s, index) => {
+    const div = document.createElement("div");
+    div.className = "student";
+    div.innerHTML = `${s.roll}<br>${s.name}`;
+    div.onclick = () => toggle(index, div);
+    container.appendChild(div);
+  });
+
+  function toggle(i, div) {
+    students[i].present = !students[i].present;
+    div.classList.toggle("present");
+  }
+
+  function submitAttendance() {
+    const payload = students.map(s => ({
+      roll: s.roll,
+      name: s.name,
+      status: s.present ? "Present" : "Absent"
+    }));
+
+    fetch("https://script.google.com/a/macros/faculty.iiests.ac.in/s/AKfycbwmu9rroxBGuSfOufB-WW-b23p10fjpU13hERbdNtcXx_LGu1ylw9HIfihzuwO6kiMuSQ/exec", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.text())
+    .then(msg => alert("Attendance Submitted"));
+  }
+</script>
+
+</body>
+</html>
