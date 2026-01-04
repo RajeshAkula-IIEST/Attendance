@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Class Attendance</title>
+  <title>Attendance</title>
   <style>
     body { font-family: Arial; }
     .student {
-      padding: 12px;
-      margin: 6px;
-      border: 1px solid #444;
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #333;
+      border-radius: 5px;
       cursor: pointer;
-      border-radius: 6px;
       display: inline-block;
       width: 200px;
       text-align: center;
     }
     .present {
-      background-color: #4CAF50;
+      background: green;
       color: white;
     }
   </style>
@@ -23,48 +23,50 @@
 <body>
 
 <h2>Attendance</h2>
-
-<div id="students"></div>
-
+<div id="students">Loading...</div>
 <br>
 <button onclick="submitAttendance()">Submit</button>
 
 <script>
-  const students = [
-    { roll: "ME21B001", name: "Arun", present: false },
-    { roll: "ME21B002", name: "Bala", present: false }
-    // ADD ALL 59 STUDENTS HERE
-  ];
+const URL = "https://script.google.com/a/macros/faculty.iiests.ac.in/s/AKfycbw-ax4aRLmc2h14rnTEuGJXkEBKytULLgrsXQmw6Yz9aC5HUzfrG0Z_8K5tUQKGg9qayg/exec";
+let students = [];
 
-  const container = document.getElementById("students");
-
-  students.forEach((s, index) => {
-    const div = document.createElement("div");
-    div.className = "student";
-    div.innerHTML = `${s.roll}<br>${s.name}`;
-    div.onclick = () => toggle(index, div);
-    container.appendChild(div);
+fetch(URL)
+  .then(res => res.json())
+  .then(data => {
+    students = data.map(s => ({ ...s, present: false }));
+    render();
   });
 
-  function toggle(i, div) {
-    students[i].present = !students[i].present;
-    div.classList.toggle("present");
-  }
+function render() {
+  const c = document.getElementById("students");
+  c.innerHTML = "";
+  students.forEach((s, i) => {
+    const d = document.createElement("div");
+    d.className = "student";
+    d.innerHTML = `${s.roll}<br>${s.name}`;
+    d.onclick = () => {
+      students[i].present = !students[i].present;
+      d.classList.toggle("present");
+    };
+    c.appendChild(d);
+  });
+}
 
-  function submitAttendance() {
-    const payload = students.map(s => ({
-      roll: s.roll,
-      name: s.name,
-      status: s.present ? "Present" : "Absent"
-    }));
-
-    fetch("https://script.google.com/a/macros/faculty.iiests.ac.in/s/AKfycbwmu9rroxBGuSfOufB-WW-b23p10fjpU13hERbdNtcXx_LGu1ylw9HIfihzuwO6kiMuSQ/exec", {
-      method: "POST",
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.text())
-    .then(msg => alert("Attendance Submitted"));
-  }
+function submitAttendance() {
+  fetch(URL, {
+    method: "POST",
+    body: JSON.stringify(
+      students.map(s => ({
+        roll: s.roll,
+        name: s.name,
+        status: s.present ? "Present" : "Absent"
+      }))
+    )
+  })
+  .then(r => r.text())
+  .then(() => alert("Attendance saved"));
+}
 </script>
 
 </body>
