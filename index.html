@@ -1,47 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Attendance Login</title>
+  <title>Faculty Login | Energy Storage Technology</title>
+
   <style>
     body {
-      font-family: Arial;
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      height: 100vh;
+      background: linear-gradient(135deg, #0b3c5d, #1b7f79);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
-    .box {
-      border: 1px solid #333;
-      padding: 20px;
-      width: 300px;
+
+    /* ---------- LOGIN CARD ---------- */
+    .login-card {
+      background: white;
+      width: 340px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+
+    /* ---------- HEADER ---------- */
+    .login-header {
+      background: #0b3c5d;
+      color: white;
       text-align: center;
-      border-radius: 8px;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
-    input, button {
+
+    /* ---------- BODY ---------- */
+    .login-body {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .login-body h4 {
+      margin: 5px 0 15px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 10px;
+      border-radius: 6px;
+      border: 1.8px solid #f57c00; /* orange accent */
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ef6c00;
+      box-shadow: 0 0 4px rgba(245,124,0,0.6);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      background: #1b7f79;
+      border: none;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #166d67;
+    }
+
+    .msg {
+      margin-top: 10px;
+      color: red;
+      font-size: 13px;
+      min-height: 16px;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .login-footer {
+      background: #f7f7f7;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      color: #555;
     }
   </style>
 </head>
+
 <body>
 
-<div class="box">
-  <h3>Faculty Login</h3>
-  <input type="password" id="pwd" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <p id="msg" style="color:red;"></p>
+<div class="login-card">
+  <div class="login-header">
+    Faculty Login
+  </div>
+
+  <div class="login-body">
+    <h4>Energy Storage Technology<br>(ME4261)</h4>
+
+    <input type="password" id="pwd" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="login-footer">
+    IIEST Shibpur
+  </div>
 </div>
 
 <script>
-const PASSWORD = "raj9484";
+const PASSWORD = "Raj9484";
 
 function login() {
   if (document.getElementById("pwd").value === PASSWORD) {
     sessionStorage.setItem("loggedIn", "yes");
     window.location.href = "attendance.html";
   } else {
-    document.getElementById("msg").innerText = "Wrong password";
+    document.getElementById("msg").innerText = "Invalid password";
   }
 }
 </script>
