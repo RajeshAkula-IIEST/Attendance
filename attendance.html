@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Attendance</title>
+  <title>Energy Storage Technology (ME4261) - Attendance</title>
 
+  <!-- 🔐 Access Control -->
   <script>
     if (sessionStorage.getItem("loggedIn") !== "yes") {
       window.location.href = "index.html";
@@ -10,54 +11,125 @@
   </script>
 
   <style>
-    body { font-family: Arial; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: #f2f6fb;
+    }
 
+    /* ---------- TOP BARS ---------- */
+    .title-bar {
+      background: #0d47a1;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .sub-bar {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .container {
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* ---------- STUDENT CARD ---------- */
     .student {
-      border: 1px solid #333;
+      background: white;
+      border-radius: 10px;
       width: 260px;
-      margin: 6px;
-      border-radius: 6px;
-      overflow: hidden;
+      margin: 8px;
       display: inline-block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.15s;
+    }
+
+    .student:hover {
+      transform: scale(1.02);
     }
 
     .info {
-      text-align: center;
-      padding: 6px;
-      font-weight: bold;
+      padding: 10px;
+      font-weight: 600;
+      color: #333;
     }
 
     .stats {
-      text-align: center;
-      font-size: 12px;
-      background: #f4f4f4;
-      padding: 4px;
+      background: #f1f1f1;
+      font-size: 13px;
+      padding: 6px;
+      color: #000;
     }
 
-    .row { display: flex; }
+    /* ---------- BUTTON ROW ---------- */
+    .row {
+      display: flex;
+    }
 
     .btn {
       flex: 1;
       padding: 10px;
-      text-align: center;
       cursor: pointer;
-      border-top: 1px solid #333;
+      font-weight: 600;
+      border-top: 1px solid #ddd;
+      user-select: none;
     }
 
-    .present { background: #4CAF50; color: white; }
-    .absent { background: #F44336; color: white; }
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .present {
+      background: #43a047;
+      color: white;
+    }
+
+    .absent {
+      background: #e53935;
+      color: white;
+    }
   </style>
 </head>
 
 <body>
 
-<h2>Attendance (Live Update)</h2>
-<div id="students">Loading...</div>
+<!-- TITLE -->
+<div class="title-bar">
+  Energy Storage Technology (ME4261)
+</div>
+
+<!-- SUB TITLE -->
+<div class="sub-bar" id="dateBar">
+  Attendance
+</div>
+
+<div class="container">
+  <div id="students">Loading...</div>
+</div>
 
 <script>
 const URL = "https://script.google.com/macros/s/AKfycby8r8kA6O6u69YIEtWCE-DowvMNZ2TGlh-4Otz2-em5aG7AP8f1rPxF61lWg9NOLzMq/exec";
 let students = [];
 
+/* ---------- SET DATE ---------- */
+const today = new Date().toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric"
+});
+document.getElementById("dateBar").innerText =
+  `Attendance (${today})`;
+
+/* ---------- LOAD DATA ---------- */
 Promise.all([
   fetch(URL).then(r => r.json()),
   fetch(URL + "?stats=true").then(r => r.json())
@@ -75,6 +147,7 @@ Promise.all([
   render();
 });
 
+/* ---------- RENDER ---------- */
 function render() {
   const c = document.getElementById("students");
   c.innerHTML = "";
@@ -82,20 +155,25 @@ function render() {
   students.forEach((s, i) => {
     const d = document.createElement("div");
     d.className = "student";
+
     d.innerHTML = `
-      <div class="info">${s.roll}<br>${s.name}</div>
+      <div class="info">
+        ${s.roll}<br>${s.name}
+      </div>
       <div class="stats" id="stats-${i}">
-        ${s.attended}/${s.total}
-        (${s.total ? ((s.attended/s.total)*100).toFixed(1) : 0}%)
+        ${s.attended} / ${s.total}
+        (${s.total ? ((s.attended / s.total) * 100).toFixed(1) : 0}%)
       </div>
       <div class="row">
-        <div class="btn" onclick="mark(${i},'Present',this)">Present</div>
-        <div class="btn" onclick="mark(${i},'Absent',this)">Absent</div>
-      </div>`;
+        <div class="btn" onclick="mark(${i}, 'Present', this)">Present</div>
+        <div class="btn" onclick="mark(${i}, 'Absent', this)">Absent</div>
+      </div>
+    `;
     c.appendChild(d);
   });
 }
 
+/* ---------- MARK ATTENDANCE ---------- */
 function mark(i, status, el) {
   const s = students[i];
 
@@ -117,7 +195,7 @@ function mark(i, status, el) {
     s.attended = res.attended;
     s.total = res.total;
     document.getElementById(`stats-${i}`).innerHTML =
-      `${res.attended}/${res.total} (${res.percent}%)`;
+      `${res.attended} / ${res.total} (${res.percent}%)`;
   });
 }
 </script>
