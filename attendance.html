@@ -3,6 +3,7 @@
 <head>
   <title>Attendance</title>
 
+  <!-- 🔐 ACCESS CONTROL -->
   <script>
     if (sessionStorage.getItem("loggedIn") !== "yes") {
       window.location.href = "index.html";
@@ -12,6 +13,7 @@
   <style>
     body { font-family: Arial; }
 
+    /* ---------- STUDENT CARD ---------- */
     .student {
       border: 1px solid #333;
       width: 260px;
@@ -21,10 +23,21 @@
       display: inline-block;
     }
 
-    .info { text-align: center; padding: 6px; font-weight: bold; }
-    .stats { text-align: center; font-size: 12px; background: #f4f4f4; padding: 4px; }
+    .info {
+      text-align: center;
+      padding: 6px;
+      font-weight: bold;
+    }
+
+    .stats {
+      text-align: center;
+      font-size: 12px;
+      background: #f4f4f4;
+      padding: 4px;
+    }
 
     .row { display: flex; }
+
     .btn {
       flex: 1;
       padding: 10px;
@@ -32,8 +45,48 @@
       cursor: pointer;
       border-top: 1px solid #333;
     }
+
     .present { background: #4CAF50; color: white; }
     .absent { background: #F44336; color: white; }
+
+    /* ---------- SUBMIT BUTTON ---------- */
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* ---------- LOADING OVERLAY ---------- */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: white;
+      font-size: 16px;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4CAF50;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 
@@ -44,10 +97,17 @@
 <br>
 <button onclick="submitAttendance()">Submit</button>
 
+<!-- 🔄 LOADING OVERLAY -->
+<div id="overlay">
+  <div class="spinner"></div>
+  <div>Submitting attendance…</div>
+</div>
+
 <script>
 const URL = "https://script.google.com/macros/s/AKfycbxAD52drQYPuvfje08tjB-E2GIyEShrB3g26QLtx67FY2UReKDsisNdRX49OSfPbkOw-g/exec";
 let students = [];
 
+/* ---------- LOAD STUDENTS + STATS ---------- */
 Promise.all([
   fetch(URL).then(r => r.json()),
   fetch(URL + "?stats=true").then(r => r.json())
@@ -61,12 +121,15 @@ Promise.all([
     attended: map[s.roll]?.attended || 0,
     total: map[s.roll]?.total || 0
   }));
+
   render();
 });
 
+/* ---------- RENDER UI ---------- */
 function render() {
   const c = document.getElementById("students");
   c.innerHTML = "";
+
   students.forEach((s, i) => {
     const d = document.createElement("div");
     d.className = "student";
@@ -77,13 +140,15 @@ function render() {
         (${s.total ? ((s.attended/s.total)*100).toFixed(1) : 0}%)
       </div>
       <div class="row">
-        <div class="btn" onclick="mark(${i},'Present',this)">Present</div>
-        <div class="btn" onclick="mark(${i},'Absent',this)">Absent</div>
-      </div>`;
+        <div class="btn" onclick="mark(${i}, 'Present', this)">Present</div>
+        <div class="btn" onclick="mark(${i}, 'Absent', this)">Absent</div>
+      </div>
+    `;
     c.appendChild(d);
   });
 }
 
+/* ---------- MARK ATTENDANCE ---------- */
 function mark(i, status, el) {
   students[i].status = status;
   const row = el.parentElement;
@@ -92,15 +157,37 @@ function mark(i, status, el) {
   el.classList.add(status === "Present" ? "present" : "absent");
 }
 
+/* ---------- SUBMIT WITH PROGRESS ---------- */
 function submitAttendance() {
   if (students.some(s => !s.status)) {
-    alert("Mark all students");
+    alert("Please mark attendance for all students.");
     return;
   }
+
+  showOverlay();
+
   fetch(URL, {
     method: "POST",
     body: JSON.stringify(students)
-  }).then(() => alert("Attendance saved"));
+  })
+  .then(r => r.text())
+  .then(() => {
+    hideOverlay();
+    alert("Attendance saved successfully");
+  })
+  .catch(() => {
+    hideOverlay();
+    alert("Error while submitting attendance");
+  });
+}
+
+/* ---------- OVERLAY CONTROL ---------- */
+function showOverlay() {
+  document.getElementById("overlay").style.display = "flex";
+}
+
+function hideOverlay() {
+  document.getElementById("overlay").style.display = "none";
 }
 </script>
 
