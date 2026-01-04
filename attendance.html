@@ -14,30 +14,41 @@
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       margin: 0;
-      background: #f2f6fb;
+      background: #f7f9fc;
     }
 
     /* ---------- TOP BARS ---------- */
     .title-bar {
-      background: #0d47a1;
+      background: #0b3c5d; /* deep energy blue */
       color: white;
       text-align: center;
-      padding: 14px;
+      padding: 16px;
       font-size: 22px;
       font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .sub-bar {
-      background: #2e7d32;
+      background: #1b7f79; /* teal green */
       color: white;
       text-align: center;
       padding: 8px;
       font-size: 16px;
     }
 
+    .blink {
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
     /* ---------- MAIN CONTENT ---------- */
     .container {
-      padding: 15px;
+      padding: 18px;
       text-align: center;
     }
 
@@ -46,25 +57,27 @@
       background: white;
       border-radius: 10px;
       width: 260px;
-      margin: 8px;
+      margin: 10px;
       display: inline-block;
+      border: 2px solid #f57c00; /* ORANGE BORDER */
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       overflow: hidden;
-      transition: transform 0.15s;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
 
     .student:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
     }
 
     .info {
       padding: 10px;
       font-weight: 600;
-      color: #333;
+      color: #263238;
     }
 
     .stats {
-      background: #f1f1f1;
+      background: #fff3e0; /* light orange tint */
       font-size: 13px;
       padding: 6px;
       color: #000;
@@ -108,8 +121,8 @@
 </div>
 
 <!-- SUB TITLE -->
-<div class="sub-bar" id="dateBar">
-  Attendance
+<div class="sub-bar">
+  Attendance <span class="blink" id="dateBar"></span>
 </div>
 
 <div class="container">
@@ -120,14 +133,13 @@
 const URL = "https://script.google.com/macros/s/AKfycby8r8kA6O6u69YIEtWCE-DowvMNZ2TGlh-4Otz2-em5aG7AP8f1rPxF61lWg9NOLzMq/exec";
 let students = [];
 
-/* ---------- SET DATE ---------- */
+/* ---------- SET BLINKING DATE ---------- */
 const today = new Date().toLocaleDateString("en-GB", {
   day: "2-digit",
   month: "short",
   year: "numeric"
 });
-document.getElementById("dateBar").innerText =
-  `Attendance (${today})`;
+document.getElementById("dateBar").innerText = `(${today})`;
 
 /* ---------- LOAD DATA ---------- */
 Promise.all([
