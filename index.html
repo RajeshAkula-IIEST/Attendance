@@ -28,6 +28,10 @@
 <button onclick="submitAttendance()">Submit</button>
 
 <script>
+  if (sessionStorage.getItem("loggedIn") !== "yes") {
+    document.body.innerHTML = "Access denied";
+    throw new Error("Unauthorized");
+  }
 const URL = "https://script.google.com/macros/s/AKfycbzVBOo6kSYrWYMv_oEhN9k06Qo2GnW6nsMUDMirZspvlGTthyI-ZHb02R9h2eA6AhFP/exec";
 let students = [];
 
