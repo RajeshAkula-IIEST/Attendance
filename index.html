@@ -1,128 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Faculty Login | Energy Storage Technology</title>
+<meta charset="UTF-8">
+<title>Faculty Login | Energy Storage Technology</title>
 
-  <style>
-    /* ---------- GLOBAL ---------- */
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #0b3c5d, #1b7f79);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #0b3c5d, #1b7f79);
+  font-family: "Segoe UI", Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    /* ---------- LOGIN CARD ---------- */
-    .login-card {
-      background: #ffffff;
-      width: 420px;                /* INCREASED */
-      border-radius: 16px;
-      box-shadow: 0 22px 50px rgba(0,0,0,0.28);
-      overflow: hidden;
-    }
+/* -------- CARD -------- */
+.login-card {
+  width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.30);
+  overflow: hidden;
+}
 
-    /* ---------- HEADER ---------- */
-    .login-header {
-      background: #0b3c5d;
-      color: #ffffff;
-      text-align: center;
-      padding: 24px 14px;          /* INCREASED */
-    }
+/* -------- HEADER -------- */
+.login-header {
+  background: #0b3c5d;
+  color: #ffffff;
+  text-align: center;
+  padding: 26px 16px;
+}
 
-    .login-header h2 {
-      margin: 0;
-      font-size: 26px;             /* INCREASED */
-      font-weight: 600;
-      letter-spacing: 0.6px;
-    }
+.login-header h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+}
 
-    /* ---------- BODY ---------- */
-    .login-body {
-      padding: 34px 30px 30px;     /* INCREASED */
-      text-align: center;
-    }
+/* -------- BODY -------- */
+.login-body {
+  padding: 36px 32px 30px;
+  text-align: center;
+}
 
-    /* COURSE TITLE (DOMINANT ELEMENT) */
-    .course-title {
-      font-size: 22px;             /* SIGNIFICANTLY INCREASED */
-      font-weight: 700;
-      color: #1e2f38;
-      margin-bottom: 6px;
-    }
+.course-title {
+  font-size: 24px;          /* VERY PROMINENT */
+  font-weight: 700;
+  color: #1e2f38;
+  margin-bottom: 6px;
+}
 
-    .course-code {
-      font-size: 17px;             /* INCREASED MORE THAN OTHERS */
-      font-weight: 600;
-      color: #607d8b;
-      margin-bottom: 28px;
-    }
+.course-code {
+  font-size: 18px;
+  font-weight: 600;
+  color: #607d8b;
+  margin-bottom: 30px;
+}
 
-    /* ---------- INPUT ---------- */
-    input {
-      width: 90%;
-      padding: 14px 14px;          /* INCREASED */
-      margin: 14px auto 0;
-      display: block;
-      border-radius: 9px;
-      border: 2px solid #f57c00;
-      font-size: 16.5px;           /* INCREASED */
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
+input {
+  width: 90%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 9px;
+  border: 2px solid #f57c00;
+  outline: none;
+}
 
-    input:focus {
-      border-color: #ef6c00;
-      box-shadow: 0 0 8px rgba(245,124,0,0.45);
-    }
+input:focus {
+  border-color: #ef6c00;
+}
 
-    /* ---------- BUTTON ---------- */
-    button {
-      width: 90%;
-      margin: 24px auto 0;
-      display: block;
-      padding: 14px;
-      background: #1b7f79;
-      border: none;
-      color: white;
-      font-size: 17px;             /* INCREASED */
-      font-weight: 600;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
-    }
+button {
+  width: 90%;
+  margin-top: 24px;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #1b7f79;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+}
 
-    button:hover {
-      background: #166d67;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
-    }
+button:hover {
+  background: #166d67;
+}
 
-    /* ---------- MESSAGE ---------- */
-    .msg {
-      margin-top: 16px;
-      color: #d32f2f;
-      font-size: 14px;             /* INCREASED */
-      min-height: 18px;
-    }
+.msg {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #d32f2f;
+  min-height: 18px;
+}
 
-    /* ---------- FOOTER (UNCHANGED FONT SIZE) ---------- */
-    .login-footer {
-      background: #f3f6f9;
-      text-align: center;
-      padding: 14px 10px;
-      border-top: 1px solid #d0d7de;
-    }
+/* -------- FOOTER -------- */
+.login-footer {
+  background: #f3f6f9;
+  text-align: center;
+  padding: 14px 10px;
+  border-top: 1px solid #d0d7de;
+}
 
-    .login-footer strong {
-      display: block;
-      font-size: 13.5px;           /* UNCHANGED */
-      color: #0b3c5d;
-      font-weight: 600;
-    }
+.login-footer strong {
+  font-size: 13.5px;   /* UNCHANGED */
+  color: #0b3c5d;
+}
 
-    .login-footer span {
-      font-size: 12px;             /* UNCHANGED */
-      color: #546e7a;
+.login-footer span {
+  display: block;
+  font-size: 12px;     /* UNCHANGED */
+  color: #546e7a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+  <div class="login-header">
+    <h2>Faculty Login</h2>
+  </div>
+
+  <div class="login-body">
+    <div class="course-title">Energy Storage Technology</div>
+    <div class="course-code">(ME4261)</div>
+
+    <input type="password" id="pwd" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="login-footer">
+    <strong>Developed by Dr. Rajesh Akula</strong>
+    <span>© 2026 · IIEST Shibpur</span>
+  </div>
+
+</div>
+
+<script>
+const PASSWORD = "Raj9484";
+
+function login() {
+  if (document.getElementById("pwd").value === PASSWORD) {
+    sessionStorage.setItem("loggedIn", "yes");
+    window.location.href = "attendance.html";
+  } else {
+    document.getElementById("msg").innerText = "Invalid password";
+  }
+}
+</script>
+
+</body>
+</html>
