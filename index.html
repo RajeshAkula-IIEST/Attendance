@@ -45,7 +45,7 @@
       color: #333;
       font-weight: 500;
     }
-    
+
     input {
       width: 85%;
       padding: 10px;
@@ -56,7 +56,6 @@
       font-size: 14px;
       outline: none;
     }
-
 
     input:focus {
       border-color: #ef6c00;
@@ -95,9 +94,20 @@
     .login-footer {
       background: #f7f7f7;
       text-align: center;
-      padding: 8px;
+      padding: 10px 6px;
       font-size: 12px;
       color: #555;
+      border-top: 1px solid #ddd;
+    }
+
+    .login-footer strong {
+      color: #0b3c5d;
+      font-weight: 600;
+    }
+
+    .login-footer span {
+      font-size: 11px;
+      color: #777;
     }
   </style>
 </head>
@@ -105,6 +115,7 @@
 <body>
 
 <div class="login-card">
+
   <div class="login-header">
     Faculty Login
   </div>
@@ -118,9 +129,8 @@
     <div class="msg" id="msg"></div>
   </div>
 
-  <div class="login-footer">
-    IIEST Shibpur
-  </div>
+  <div class="footer"> <strong>Developed by Dr. Rajesh Akula</strong><br> <span>© 2026 · IIEST Shibpur</span> </div>
+
 </div>
 
 <script>
