@@ -4,10 +4,11 @@
   <title>Faculty Login | Energy Storage Technology</title>
 
   <style>
+    /* ---------- GLOBAL ---------- */
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
       height: 100vh;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
       background: linear-gradient(135deg, #0b3c5d, #1b7f79);
       display: flex;
       justify-content: center;
@@ -16,98 +17,110 @@
 
     /* ---------- LOGIN CARD ---------- */
     .login-card {
-      background: white;
-      width: 340px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      background: #ffffff;
+      width: 360px;
+      border-radius: 14px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
       overflow: hidden;
     }
 
     /* ---------- HEADER ---------- */
     .login-header {
       background: #0b3c5d;
-      color: white;
+      color: #ffffff;
       text-align: center;
-      padding: 16px;
-      font-size: 20px;
+      padding: 18px 12px;
+    }
+
+    .login-header h2 {
+      margin: 0;
+      font-size: 22px;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     /* ---------- BODY ---------- */
     .login-body {
-      padding: 20px;
+      padding: 26px 22px 22px;
       text-align: center;
     }
 
-    .login-body h4 {
-      margin: 5px 0 15px;
-      color: #333;
-      font-weight: 500;
+    .course-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #263238;
+      margin-bottom: 4px;
+    }
+
+    .course-code {
+      font-size: 14px;
+      color: #607d8b;
+      margin-bottom: 20px;
     }
 
     input {
-      width: 85%;
-      padding: 10px;
+      width: 88%;
+      padding: 11px 12px;
       margin: 10px auto 0;
       display: block;
-      border-radius: 6px;
+      border-radius: 7px;
       border: 1.8px solid #f57c00;
-      font-size: 14px;
+      font-size: 14.5px;
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus {
       border-color: #ef6c00;
-      box-shadow: 0 0 4px rgba(245,124,0,0.6);
+      box-shadow: 0 0 6px rgba(245,124,0,0.45);
     }
 
     button {
-      width: 85%;
-      margin-left: auto;
-      margin-right: auto;
+      width: 88%;
+      margin: 18px auto 0;
       display: block;
-      margin-top: 15px;
-      padding: 10px;
+      padding: 11px;
       background: #1b7f79;
       border: none;
       color: white;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 7px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
     }
 
     button:hover {
       background: #166d67;
+      transform: translateY(-1px);
     }
 
     .msg {
-      margin-top: 10px;
-      color: red;
+      margin-top: 12px;
+      color: #d32f2f;
       font-size: 13px;
       min-height: 16px;
     }
 
     /* ---------- FOOTER ---------- */
     .login-footer {
-      background: #f7f7f7;
+      background: #f3f6f9;
       text-align: center;
-      padding: 10px 6px;
-      font-size: 12px;
-      color: #555;
-      border-top: 1px solid #ddd;
+      padding: 12px 10px;
+      border-top: 1px solid #d0d7de;
     }
 
     .login-footer strong {
+      display: block;
+      font-size: 13.5px;
       color: #0b3c5d;
       font-weight: 600;
     }
 
     .login-footer span {
-      font-size: 11px;
-      color: #777;
+      font-size: 12px;
+      color: #546e7a;
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -117,11 +130,12 @@
 <div class="login-card">
 
   <div class="login-header">
-    Faculty Login
+    <h2>Faculty Login</h2>
   </div>
 
   <div class="login-body">
-    <h4>Energy Storage Technology<br>(ME4261)</h4>
+    <div class="course-title">Energy Storage Technology</div>
+    <div class="course-code">(ME4261)</div>
 
     <input type="password" id="pwd" placeholder="Enter password">
     <button onclick="login()">Login</button>
@@ -129,7 +143,14 @@
     <div class="msg" id="msg"></div>
   </div>
 
-  <div class="footer"> <strong>Developed by Dr. Rajesh Akula</strong><br> <span>© 2026 · IIEST Shibpur</span> </div>
+  <div class="login-footer">
+    <strong>Developed by Dr. Rajesh Akula</strong>
+    <span>
+      Assistant Professor<br>
+      Department of Mechanical Engineering<br>
+      IIEST Shibpur
+    </span>
+  </div>
 
 </div>
 
