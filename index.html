@@ -1,9 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>TEST</title>
+<meta charset="UTF-8">
+<title>Faculty Login | Energy Storage Technology</title>
+
+<style>
+/* ---------- PAGE ---------- */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #0b3c5d;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Center wrapper (safe, no flex issues) */
+.wrapper {
+  width: 100%;
+  padding-top: 80px;
+  text-align: center;
+}
+
+/* ---------- LOGIN CARD ---------- */
+.login-card {
+  width: 420px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+/* ---------- HEADER ---------- */
+.login-header {
+  background: #0b3c5d;
+  color: #ffffff;
+  padding: 24px;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- BODY ---------- */
+.login-body {
+  padding: 36px 32px;
+}
+
+.course-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e2f38;
+  margin-bottom: 6px;
+}
+
+.course-code {
+  font-size: 18px;
+  color: #607d8b;
+  margin-bottom: 30px;
+}
+
+/* ---------- INPUT ---------- */
+input {
+  width: 90%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #f57c00;
+  outline: none;
+}
+
+input:focus {
+  border-color: #ef6c00;
+}
+
+/* ---------- BUTTON ---------- */
+button {
+  width: 90%;
+  margin-top: 22px;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: bold;
+  background: #1b7f79;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #166d67;
+}
+
+/* ---------- MESSAGE ---------- */
+.msg {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #d32f2f;
+  min-height: 18px;
+}
+
+/* ---------- FOOTER ---------- */
+.login-footer {
+  background: #f3f6f9;
+  border-top: 1px solid #d0d7de;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.login-footer strong {
+  font-size: 13.5px;   /* UNCHANGED as requested */
+  color: #0b3c5d;
+}
+
+.login-footer span {
+  display: block;
+  font-size: 12px;     /* UNCHANGED */
+  color: #546e7a;
+}
+</style>
 </head>
-<body style="background:red; color:white; font-size:30px; text-align:center; padding-top:100px;">
-  IF YOU SEE THIS RED PAGE, HTML IS WORKING
+
+<body>
+
+<div class="wrapper">
+
+  <div class="login-card">
+
+    <div class="login-header">
+      Faculty Login
+    </div>
+
+    <div class="login-body">
+      <div class="course-title">Energy Storage Technology</div>
+      <div class="course-code">(ME4261)</div>
+
+      <input type="password" id="pwd" placeholder="Enter password">
+      <br>
+      <button onclick="login()">Login</button>
+
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="login-footer">
+      <strong>Developed by Dr. Rajesh Akula</strong>
+      <span>© 2026 · IIEST Shibpur</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const PASSWORD = "Raj9484";
+
+function login() {
+  var pwd = document.getElementById("pwd").value;
+  if (pwd === PASSWORD) {
+    sessionStorage.setItem("loggedIn", "yes");
+    window.location.href = "attendance.html";
+  } else {
+    document.getElementById("msg").innerHTML = "Invalid password";
+  }
+}
+</script>
+
 </body>
 </html>
