@@ -19,17 +19,16 @@
 
     /* ---------- TOP BARS ---------- */
     .title-bar {
-      background: #0b3c5d; /* deep energy blue */
+      background: #0b3c5d;
       color: white;
       text-align: center;
       padding: 16px;
       font-size: 22px;
       font-weight: 600;
-      letter-spacing: 0.5px;
     }
 
     .sub-bar {
-      background: #1b7f79; /* teal green */
+      background: #1b7f79;
       color: white;
       text-align: center;
       padding: 8px;
@@ -59,15 +58,9 @@
       width: 260px;
       margin: 10px;
       display: inline-block;
-      border: 2px solid #f57c00; /* ORANGE BORDER */
+      border: 2px solid #f57c00;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       overflow: hidden;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-
-    .student:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
     }
 
     .info {
@@ -77,11 +70,31 @@
     }
 
     .stats {
-      background: #fff3e0; /* light orange tint */
+      background: #fff3e0;
       font-size: 13px;
       padding: 6px;
       color: #000;
     }
+
+    /* ---------- ATTENDANCE BAR ---------- */
+    .progress-container {
+      height: 8px;
+      background: #eceff1;
+      border-radius: 5px;
+      margin: 6px 10px 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .p-green { background: #43a047; }
+    .p-yellow { background: #fbc02d; }
+    .p-orange { background: #f57c00; }
+    .p-red { background: #e53935; }
 
     /* ---------- BUTTON ROW ---------- */
     .row {
@@ -94,11 +107,6 @@
       cursor: pointer;
       font-weight: 600;
       border-top: 1px solid #ddd;
-      user-select: none;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
     }
 
     .present {
@@ -110,34 +118,32 @@
       background: #e53935;
       color: white;
     }
-    .logout-btn {
-  background: #0b3c5d;       /* same deep blue */
-  color: white;
-  padding: 10px 30px;
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: background 0.2s, transform 0.1s;
-}
 
-.logout-btn:hover {
-  background: #08324d;
-  transform: scale(1.05);
-}
+    /* ---------- LOGOUT ---------- */
+    .logout-btn {
+      background: #0b3c5d;
+      color: white;
+      padding: 10px 30px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .logout-btn:hover {
+      background: #08324d;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- TITLE -->
 <div class="title-bar">
   Energy Storage Technology (ME4261)
 </div>
 
-<!-- SUB TITLE -->
 <div class="sub-bar">
   Attendance <span class="blink" id="dateBar"></span>
 </div>
@@ -150,7 +156,7 @@
 const URL = "https://script.google.com/macros/s/AKfycby8r8kA6O6u69YIEtWCE-DowvMNZ2TGlh-4Otz2-em5aG7AP8f1rPxF61lWg9NOLzMq/exec";
 let students = [];
 
-/* ---------- SET BLINKING DATE ---------- */
+/* ---------- DATE ---------- */
 const today = new Date().toLocaleDateString("en-GB", {
   day: "2-digit",
   month: "short",
@@ -176,6 +182,19 @@ Promise.all([
   render();
 });
 
+/* ---------- HELPERS ---------- */
+function getPercent(a, t) {
+  return t ? ((a / t) * 100).toFixed(1) : 0;
+}
+
+function getBarClass(a, t) {
+  const p = t ? (a / t) * 100 : 0;
+  if (p >= 75) return "p-green";
+  if (p >= 50) return "p-yellow";
+  if (p >= 25) return "p-orange";
+  return "p-red";
+}
+
 /* ---------- RENDER ---------- */
 function render() {
   const c = document.getElementById("students");
@@ -186,13 +205,19 @@ function render() {
     d.className = "student";
 
     d.innerHTML = `
-      <div class="info">
-        ${s.roll}<br>${s.name}
-      </div>
+      <div class="info">${s.roll}<br>${s.name}</div>
+
       <div class="stats" id="stats-${i}">
-        ${s.attended} / ${s.total}
-        (${s.total ? ((s.attended / s.total) * 100).toFixed(1) : 0}%)
+        ${s.attended} / ${s.total} (${getPercent(s.attended, s.total)}%)
       </div>
+
+      <div class="progress-container">
+        <div class="progress-bar ${getBarClass(s.attended, s.total)}"
+             id="bar-${i}"
+             style="width:${getPercent(s.attended, s.total)}%">
+        </div>
+      </div>
+
       <div class="row">
         <div class="btn" onclick="mark(${i}, 'Present', this)">Present</div>
         <div class="btn" onclick="mark(${i}, 'Absent', this)">Absent</div>
@@ -202,7 +227,7 @@ function render() {
   });
 }
 
-/* ---------- MARK ATTENDANCE ---------- */
+/* ---------- MARK ---------- */
 function mark(i, status, el) {
   const s = students[i];
 
@@ -223,20 +248,28 @@ function mark(i, status, el) {
   .then(res => {
     s.attended = res.attended;
     s.total = res.total;
+
     document.getElementById(`stats-${i}`).innerHTML =
       `${res.attended} / ${res.total} (${res.percent}%)`;
+
+    const bar = document.getElementById(`bar-${i}`);
+    bar.style.width = `${res.percent}%`;
+    bar.className = `progress-bar ${getBarClass(res.attended, res.total)}`;
   });
 }
-  function logout() {
+
+/* ---------- LOGOUT ---------- */
+function logout() {
   if (confirm("Do you want to close attendance and logout?")) {
     sessionStorage.removeItem("loggedIn");
     window.location.href = "index.html";
   }
 }
-
 </script>
-<div style="text-align:center; margin: 30px 0;">
+
+<div style="text-align:center; margin:30px 0;">
   <button class="logout-btn" onclick="logout()">Close</button>
 </div>
+
 </body>
 </html>
