@@ -18,9 +18,9 @@
     /* ---------- LOGIN CARD ---------- */
     .login-card {
       background: #ffffff;
-      width: 360px;
-      border-radius: 14px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+      width: 420px;                /* INCREASED */
+      border-radius: 16px;
+      box-shadow: 0 22px 50px rgba(0,0,0,0.28);
       overflow: hidden;
     }
 
@@ -29,139 +29,100 @@
       background: #0b3c5d;
       color: #ffffff;
       text-align: center;
-      padding: 18px 12px;
+      padding: 24px 14px;          /* INCREASED */
     }
 
     .login-header h2 {
       margin: 0;
-      font-size: 22px;
+      font-size: 26px;             /* INCREASED */
       font-weight: 600;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.6px;
     }
 
     /* ---------- BODY ---------- */
     .login-body {
-      padding: 26px 22px 22px;
+      padding: 34px 30px 30px;     /* INCREASED */
       text-align: center;
     }
 
+    /* COURSE TITLE (DOMINANT ELEMENT) */
     .course-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #263238;
-      margin-bottom: 4px;
+      font-size: 22px;             /* SIGNIFICANTLY INCREASED */
+      font-weight: 700;
+      color: #1e2f38;
+      margin-bottom: 6px;
     }
 
     .course-code {
-      font-size: 14px;
+      font-size: 17px;             /* INCREASED MORE THAN OTHERS */
+      font-weight: 600;
       color: #607d8b;
-      margin-bottom: 20px;
+      margin-bottom: 28px;
     }
 
+    /* ---------- INPUT ---------- */
     input {
-      width: 88%;
-      padding: 11px 12px;
-      margin: 10px auto 0;
+      width: 90%;
+      padding: 14px 14px;          /* INCREASED */
+      margin: 14px auto 0;
       display: block;
-      border-radius: 7px;
-      border: 1.8px solid #f57c00;
-      font-size: 14.5px;
+      border-radius: 9px;
+      border: 2px solid #f57c00;
+      font-size: 16.5px;           /* INCREASED */
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus {
       border-color: #ef6c00;
-      box-shadow: 0 0 6px rgba(245,124,0,0.45);
+      box-shadow: 0 0 8px rgba(245,124,0,0.45);
     }
 
+    /* ---------- BUTTON ---------- */
     button {
-      width: 88%;
-      margin: 18px auto 0;
+      width: 90%;
+      margin: 24px auto 0;
       display: block;
-      padding: 11px;
+      padding: 14px;
       background: #1b7f79;
       border: none;
       color: white;
-      font-size: 15.5px;
+      font-size: 17px;             /* INCREASED */
       font-weight: 600;
-      border-radius: 7px;
+      border-radius: 9px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
     }
 
     button:hover {
       background: #166d67;
       transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
     }
 
+    /* ---------- MESSAGE ---------- */
     .msg {
-      margin-top: 12px;
+      margin-top: 16px;
       color: #d32f2f;
-      font-size: 13px;
-      min-height: 16px;
+      font-size: 14px;             /* INCREASED */
+      min-height: 18px;
     }
 
-    /* ---------- FOOTER ---------- */
+    /* ---------- FOOTER (UNCHANGED FONT SIZE) ---------- */
     .login-footer {
       background: #f3f6f9;
       text-align: center;
-      padding: 12px 10px;
+      padding: 14px 10px;
       border-top: 1px solid #d0d7de;
     }
 
     .login-footer strong {
       display: block;
-      font-size: 13.5px;
+      font-size: 13.5px;           /* UNCHANGED */
       color: #0b3c5d;
       font-weight: 600;
     }
 
     .login-footer span {
-      font-size: 12px;
+      font-size: 12px;             /* UNCHANGED */
       color: #546e7a;
-      line-height: 1.4;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="login-card">
-
-  <div class="login-header">
-    <h2>Faculty Login</h2>
-  </div>
-
-  <div class="login-body">
-    <div class="course-title">Energy Storage Technology</div>
-    <div class="course-code">(ME4261)</div>
-
-    <input type="password" id="pwd" placeholder="Enter password">
-    <button onclick="login()">Login</button>
-
-    <div class="msg" id="msg"></div>
-  </div>
-
-  <div class="login-footer">
-    <strong>Developed by Dr. Rajesh Akula</strong><br>
-    <span> © 2026 · IIEST Shibpur    </span>
-  </div>
-
-</div>
-
-<script>
-const PASSWORD = "Raj9484";
-
-function login() {
-  if (document.getElementById("pwd").value === PASSWORD) {
-    sessionStorage.setItem("loggedIn", "yes");
-    window.location.href = "attendance.html";
-  } else {
-    document.getElementById("msg").innerText = "Invalid password";
-  }
-}
-</script>
-
-</body>
-</html>
