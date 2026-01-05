@@ -184,7 +184,9 @@ Promise.all([
 
 /* ---------- HELPERS ---------- */
 function getPercent(a, t) {
-  return t ? ((a / t) * 100).toFixed(1) : 0;
+  if (!t) return 10;        // ensures red bar visible for 0/0
+  const p = (a / t) * 100;
+  return p === 0 ? 4 : p.toFixed(1);   // minimum bar width
 }
 
 function getBarClass(a, t) {
