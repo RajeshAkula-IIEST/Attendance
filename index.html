@@ -9,24 +9,24 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #0b3c5d;
+  background: linear-gradient(135deg, #0b3c5d, #145c6f);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Center wrapper (safe, no flex issues) */
+/* ---------- WRAPPER ---------- */
 .wrapper {
   width: 100%;
-  padding-top: 80px;
+  padding-top: 90px;
   text-align: center;
 }
 
 /* ---------- LOGIN CARD ---------- */
 .login-card {
-  width: 420px;
+  width: 440px;
   margin: auto;
   background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35);
   overflow: hidden;
 }
 
@@ -34,19 +34,19 @@ body {
 .login-header {
   background: #0b3c5d;
   color: #ffffff;
-  padding: 24px;
-  font-size: 26px;
+  padding: 26px;
+  font-size: 27px;
   font-weight: bold;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
 /* ---------- BODY ---------- */
 .login-body {
-  padding: 36px 32px;
+  padding: 40px 36px 34px;
 }
 
 .course-title {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: bold;
   color: #1e2f38;
   margin-bottom: 6px;
@@ -54,16 +54,17 @@ body {
 
 .course-code {
   font-size: 18px;
+  font-weight: bold;
   color: #607d8b;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 /* ---------- INPUT ---------- */
 input {
   width: 90%;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 8px;
+  padding: 15px;
+  font-size: 16.5px;
+  border-radius: 9px;
   border: 2px solid #f57c00;
   outline: none;
 }
@@ -75,14 +76,14 @@ input:focus {
 /* ---------- BUTTON ---------- */
 button {
   width: 90%;
-  margin-top: 22px;
-  padding: 14px;
-  font-size: 17px;
+  margin-top: 24px;
+  padding: 15px;
+  font-size: 17.5px;
   font-weight: bold;
   background: #1b7f79;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 9px;
   cursor: pointer;
 }
 
@@ -92,8 +93,8 @@ button:hover {
 
 /* ---------- MESSAGE ---------- */
 .msg {
-  margin-top: 16px;
-  font-size: 14px;
+  margin-top: 18px;
+  font-size: 14.5px;
   color: #d32f2f;
   min-height: 18px;
 }
@@ -102,18 +103,17 @@ button:hover {
 .login-footer {
   background: #f3f6f9;
   border-top: 1px solid #d0d7de;
-  padding: 14px 10px;
-  text-align: center;
+  padding: 16px 10px;
 }
 
 .login-footer strong {
-  font-size: 13.5px;   /* UNCHANGED as requested */
+  font-size: 13.5px;
   color: #0b3c5d;
 }
 
 .login-footer span {
   display: block;
-  font-size: 12px;     /* UNCHANGED */
+  font-size: 12px;
   color: #546e7a;
 }
 </style>
